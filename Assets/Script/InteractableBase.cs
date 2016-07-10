@@ -18,7 +18,7 @@ public class InteractableBase : MonoBehaviour {
     private void OnTriggerEnter(Collider collider)
     {
         WandController controller = collider.GetComponent<WandController>();
-        if (controller != null && controller.isActive())
+        if (controller != null && controller.isActive() && controller.mType == mType)
         {
             destory();
         }

@@ -3,21 +3,16 @@ using System.Collections;
 
 public class WandController : MonoBehaviour {
 
+    public TYPE mType;
     private bool mActive;
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     private void OnTriggerEnter(Collider collider)
     {
+        InteractableBase obj = collider.GetComponent<InteractableBase>();
+        if (obj != null && isActive() && obj.mType == mType)
+        {
 
+        }
     }
 
     public bool isActive()
