@@ -7,8 +7,9 @@ public enum TYPE { SHIELD, SWORD };
 public class InteractableBase : MonoBehaviour {
 
     public TYPE mType;
-    private Vector3 mDestination;
-    private float mVelocity = 1f;
+    protected int score = 0;
+    protected Vector3 mDestination;
+    protected float mVelocity = 1f;
 
     private void Start()
     {
