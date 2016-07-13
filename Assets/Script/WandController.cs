@@ -4,12 +4,13 @@ using System.Collections;
 public class WandController : MonoBehaviour {
 
     public TYPE mType;
+    public Player mPlayer;
     protected bool mActive;
-    protected Rigidbody rig;
+    protected Rigidbody mRig;
 
     protected virtual void Start()
     {
-        rig = GetComponent<Rigidbody>();
+        mRig = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -19,9 +20,11 @@ public class WandController : MonoBehaviour {
 
     private void OnTriggerEnter(Collider collider)
     {
-        InteractableBase obj = collider.GetComponent<InteractableBase>();
+        TuneBase obj = collider.GetComponent<TuneBase>();
         if (obj != null && isActive() && obj.mType == mType)
         {
+            obj.getHit(this);
+            mPlayer.addScore(obj.getScore());
         }
     }
 

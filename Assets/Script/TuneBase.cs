@@ -4,33 +4,35 @@ using System.Collections;
 public enum TYPE { SHIELD, SWORD };
 
 // this class is the base class of tune object
-public class InteractableBase : MonoBehaviour {
+public class TuneBase : MonoBehaviour {
 
     public TYPE mType;
-    protected int score = 0;
+    protected int mScore = 0;
+    protected Vector3 mDeparture;
     protected Vector3 mDestination;
-    protected float mVelocity = 1f;
+    protected float mVelocity;
 
-    private void Start()
+    protected virtual void Start()
     {
         mDestination = GameObject.FindGameObjectWithTag("Player").transform.position;
     }
 
-    private void OnTriggerEnter(Collider collider)
+    public virtual void getHit(WandController wand)
     {
-        WandController controller = collider.GetComponent<WandController>();
-        if (controller != null && controller.isActive() && controller.mType == mType)
-        {
-            destory();
-        }
+        destory();
     }
 
     // called when object is hit
     public virtual void destory() { }
 
-    public Vector3 getDestination()
+    public int getScore()
     {
-        return mDestination;
+        return mScore;
+    }
+
+    public Vector3 getDeparture()
+    {
+        return mDeparture;
     }
 
     public void setDestination(Vector3 pos)

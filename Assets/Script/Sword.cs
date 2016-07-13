@@ -16,7 +16,7 @@ public class Sword : WandController {
 
     protected override void updateStatus()
     {
-        if (rig.velocity.magnitude > mVelocityThreshold)
+        if (mRig.velocity.magnitude > mVelocityThreshold)
         {
             mActive = true;
         }
