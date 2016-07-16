@@ -9,7 +9,7 @@ public class TuneBase : MonoBehaviour {
     static public float USER_SCALE = 2;
     public TYPE mType;
     
-    protected int mScore = 0;
+    public int mScore = 0;
     protected Vector3 mDeparture;
     protected Vector3 mDestination;
     protected float mVelocity;

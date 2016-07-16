@@ -8,6 +8,8 @@ public class TuneSpawner : MonoBehaviour {
     public delegate void disappearHandler();
     public static event disappearHandler disappearEvent;
 
+    public string musicName = "m01";
+
     List<TuneCanSpwan> spawnList;
     List<TuneCanSpwan> destroyList;
     float mStartTime;
@@ -19,7 +21,7 @@ public class TuneSpawner : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        var json = ((TextAsset)Resources.Load("m01")).text; // 没有后缀
+        var json = ((TextAsset)Resources.Load(musicName)).text; // 没有后缀
         TuneList list = JsonUtility.FromJson<TuneList>(json);
         spawnList = new List<TuneCanSpwan>();
         destroyList = new List<TuneCanSpwan>();;
@@ -47,6 +49,7 @@ public class TuneSpawner : MonoBehaviour {
         float now_time = Time.time - mStartTime;
         if(spawnList.Count != 0 && spawnList[0].mDepartureTime <= (int)(now_time*1000))
         {
+            // 这里判断 mType 处理不同类型音符
             var note = Spawn(tune00_prefab, spawnList[0].mDeparture, spawnList[0].mVelocity);
             spawnList[0].obj = note;
             //Destroy(note, 1.0f*spawnList[0].mHitTime/1000 - (1.0f*spawnList[0].mDepartureTime/1000));
@@ -61,7 +64,7 @@ public class TuneSpawner : MonoBehaviour {
             if (1.0f*item.mHitTime / 1000 <= now_time)
             {
                 Destroy(item.obj, 0);
-                //disappearEvent();
+                //disappearEvent(); // 这里调用过期事件
                 destroyList.Remove(item);
             }
         }
@@ -72,6 +75,7 @@ public class TuneSpawner : MonoBehaviour {
         var note = (GameObject)Instantiate(prefab, mDeparture, Quaternion.identity);
         var mDestination = GameObject.FindGameObjectWithTag("Player").transform.position;
         note.GetComponent<Rigidbody>().velocity = mVelocity * ( mDestination - mDeparture).normalized;
+        note.GetComponent<TuneBase>().mScore = 1;
         return note;
     }
 }
