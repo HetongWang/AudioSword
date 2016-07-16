@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class TuneSpawner : MonoBehaviour {
+public class TuneManager : MonoBehaviour {
+
+    public delegate void disappearHandler();
+    public static event disappearHandler disappearEvent;
+
     List<TuneCanSpwan> spawnList;
     float mStartTime;
     public GameObject prefab;
