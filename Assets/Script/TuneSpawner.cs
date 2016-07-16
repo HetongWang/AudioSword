@@ -1,8 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+
+
 public class TuneSpawner : MonoBehaviour {
+
+    public delegate void disappearHandler();
+    public static event disappearHandler disappearEvent;
+
     List<TuneCanSpwan> spawnList;
+    List<TuneCanSpwan> destroyList;
     float mStartTime;
     public GameObject tune00_prefab;
     public GameObject tune01_prefab;
@@ -15,14 +22,15 @@ public class TuneSpawner : MonoBehaviour {
         var json = ((TextAsset)Resources.Load("m01")).text; // 没有后缀
         TuneList list = JsonUtility.FromJson<TuneList>(json);
         spawnList = new List<TuneCanSpwan>();
+        destroyList = new List<TuneCanSpwan>();;
         foreach (var tune in list.l)
         {
             spawnList.Add(new TuneCanSpwan(tune.mDeparture_x, tune.mDeparture_y, tune.mDeparture_z, tune.mVelocity, tune.mType,tune.mHitTime));
         }
-        //spawnList.Sort();
+        spawnList.Sort();
         foreach (var item in spawnList)
         {
-            print(item.mDepartureTime);
+            print(item.mHitTime);
         }
         StartTimer();
 
@@ -36,23 +44,29 @@ public class TuneSpawner : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (spawnList.Count == 0) return;
         float now_time = Time.time - mStartTime;
-        if(spawnList[0].mDepartureTime <= (int)(now_time*1000))
+        if(spawnList.Count != 0 && spawnList[0].mDepartureTime <= (int)(now_time*1000))
         {
-            print((int)(now_time * 1000));
-            print(spawnList[0].mDepartureTime);
-            //spawnList[0].Spawn(prefab);
             var note = Spawn(tune00_prefab, spawnList[0].mDeparture, spawnList[0].mVelocity);
-            Destroy(note, spawnList[0].mHitTime - spawnList[0].mDepartureTime);
-            print("Spwnaed!");
+            spawnList[0].obj = note;
+            //Destroy(note, 1.0f*spawnList[0].mHitTime/1000 - (1.0f*spawnList[0].mDepartureTime/1000));
+            destroyList.Add(spawnList[0]);
             spawnList.RemoveAt(0);
-            //foreach (var item in spawnList)
-            //{
-            //    print(item.mDepartureTime);
-            //}
+
+        }
+        for (int i = 0; i < destroyList.Count; i++)
+        {
+            var item = destroyList[i];
+            if (item.obj == null) continue;
+            if (1.0f*item.mHitTime / 1000 <= now_time)
+            {
+                Destroy(item.obj, 0);
+                //disappearEvent();
+                destroyList.Remove(item);
+            }
         }
     }
+
     public GameObject Spawn(GameObject prefab, Vector3 mDeparture, float mVelocity)
     {
         var note = (GameObject)Instantiate(prefab, mDeparture, Quaternion.identity);

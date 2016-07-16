@@ -5,14 +5,18 @@ using System;
 
 public class TuneCanSpwan : IComparable{
     public int mDepartureTime; // in ms
-    static public float USER_SCALE = 0.5f;
+    static public float USER_SCALE = 1f;
     public TYPE mType;
 
     protected int mScore = 0;
     public Vector3 mDeparture;
     protected Vector3 mDestination;
     public float mVelocity;
-    public float mHitTime;
+    public int mHitTime;
+
+    public GameObject obj;
+    
+
     public TuneCanSpwan(float x, float y, float z, float v, TYPE type, int hitTime)
     {
         mDeparture = new Vector3(x, y, z);
@@ -32,6 +36,6 @@ public class TuneCanSpwan : IComparable{
 
     public int CompareTo(object obj)
     {
-        return (mDepartureTime > ((TuneCanSpwan)obj).mDepartureTime) ? 1 : 0;
+        return (mDepartureTime - ((TuneCanSpwan)obj).mDepartureTime);
     }
-}
+}   

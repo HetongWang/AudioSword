@@ -13,7 +13,7 @@ for i in xrange(1,10):
 	item["mDeparture_x"] = (i%3) + 1
 	item["mDeparture_y"] = (i%3 + 1) + 1
 	item["mDeparture_z"] = (i%3 + 2) + 5
-	item["mHitTime"] = i*2000
+	item["mHitTime"] = item["mVelocity"]*2000 + i*1000
 	tune_list["l"].append(item)
 
 file.write(json.dumps(tune_list))
