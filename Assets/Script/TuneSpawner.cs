@@ -17,12 +17,7 @@ public class TuneSpawner : MonoBehaviour {
             spawnList.Add(new TuneCanSpwan(tune.mDeparture_x, tune.mDeparture_y, tune.mDeparture_z, tune.mVelocity, tune.mType,tune.mHitTime));
         }
         //spawnList.Sort();
-        foreach (var item in spawnList)
-        {
-            print(item.mDepartureTime);
-        }
         StartTimer();
-
     }
 	
     void StartTimer()
@@ -37,11 +32,8 @@ public class TuneSpawner : MonoBehaviour {
         float now_time = Time.time - mStartTime;
         if(spawnList[0].mDepartureTime <= (int)(now_time*1000))
         {
-            print((int)(now_time * 1000));
-            print(spawnList[0].mDepartureTime);
             //spawnList[0].Spawn(prefab);
             var note = Spawn(prefab, spawnList[0].mDeparture, spawnList[0].mVelocity);
-            print("Spwnaed!");
             spawnList.RemoveAt(0);
             //foreach (var item in spawnList)
             //{
@@ -51,10 +43,10 @@ public class TuneSpawner : MonoBehaviour {
     }
     public GameObject Spawn(GameObject prefab, Vector3 mDeparture, float mVelocity)
     {
-        var note = (GameObject)Instantiate(prefab, mDeparture / 1000, Quaternion.identity);
+        var tune = (GameObject)Instantiate(prefab, mDeparture / 1000, Quaternion.identity);
         var mDestination = GameObject.FindGameObjectWithTag("Player").transform.position;
-        note.GetComponent<Rigidbody>().velocity = mVelocity * -(mDeparture - mDestination).normalized;
-        return note;
+        tune.GetComponent<TuneBase>().setVelocity((mDeparture - mDestination).normalized * mVelocity);
+        return tune;
     }
 }
 
