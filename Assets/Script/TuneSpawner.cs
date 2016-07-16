@@ -4,7 +4,10 @@ using System.Collections.Generic;
 public class TuneSpawner : MonoBehaviour {
     List<TuneCanSpwan> spawnList;
     float mStartTime;
-    public GameObject prefab;
+    public GameObject tune00_prefab;
+    public GameObject tune01_prefab;
+    public GameObject tune02_prefab;
+    public GameObject tune03_prefab;
     //private TextAsset mTextAsset;
 
     // Use this for initialization
@@ -40,7 +43,8 @@ public class TuneSpawner : MonoBehaviour {
             print((int)(now_time * 1000));
             print(spawnList[0].mDepartureTime);
             //spawnList[0].Spawn(prefab);
-            var note = Spawn(prefab, spawnList[0].mDeparture, spawnList[0].mVelocity);
+            var note = Spawn(tune00_prefab, spawnList[0].mDeparture, spawnList[0].mVelocity);
+            Destroy(note, spawnList[0].mHitTime - spawnList[0].mDepartureTime);
             print("Spwnaed!");
             spawnList.RemoveAt(0);
             //foreach (var item in spawnList)
@@ -51,9 +55,9 @@ public class TuneSpawner : MonoBehaviour {
     }
     public GameObject Spawn(GameObject prefab, Vector3 mDeparture, float mVelocity)
     {
-        var note = (GameObject)Instantiate(prefab, mDeparture / 1000, Quaternion.identity);
+        var note = (GameObject)Instantiate(prefab, mDeparture, Quaternion.identity);
         var mDestination = GameObject.FindGameObjectWithTag("Player").transform.position;
-        note.GetComponent<Rigidbody>().velocity = mVelocity * -(mDeparture - mDestination).normalized;
+        note.GetComponent<Rigidbody>().velocity = mVelocity * ( mDestination - mDeparture).normalized;
         return note;
     }
 }
