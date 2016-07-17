@@ -3,11 +3,12 @@ using System.Collections;
 
 public class Shield : WandController {
 
-    public float mVelocityThreshold;
+    protected float mVelocityThreshold;
 
 	// Use this for initialization
     protected override void Start () {
         base.Start();
+        mType = TYPE.SHIELD;
         INIParser ini = new INIParser();
         TextAsset configAsset = Resources.Load("Config/config.ini") as TextAsset;
         ini.Open(configAsset);

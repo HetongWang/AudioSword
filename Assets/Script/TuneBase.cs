@@ -20,16 +20,19 @@ public class TuneBase : MonoBehaviour {
     protected virtual void FixedUpdate()
     {
         GetComponent<Rigidbody>().velocity = mVelocity;
-        print(GetComponent<Rigidbody>().velocity);
     }
 
     public virtual void getHit(WandController wand)
     {
         destory();
+        Debug.Log ("get hit");
     }
 
     // called when object is hit
-    public virtual void destory() { }
+    public virtual void destory() 
+	{
+		Destroy (gameObject);
+	}
 
     public int getScore()
     {
