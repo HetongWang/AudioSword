@@ -24,7 +24,7 @@ public class WandController : MonoBehaviour {
     {
         TuneBase obj = collider.GetComponent<TuneBase>();
         if (obj != null && isActive() && obj.mType == mType)
-        {
+		{
             obj.getHit(this);
             mPlayer.addScore(obj.getScore());
         }

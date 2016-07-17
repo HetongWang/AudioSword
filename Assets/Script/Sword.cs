@@ -3,11 +3,12 @@ using System.Collections;
 
 public class Sword : WandController {
 
-    public float mVelocityThreshold;
+    protected float mVelocityThreshold;
 
     protected override void Start()
     {
         base.Start();
+        mType = TYPE.SWORD;
         INIParser ini = new INIParser();
         TextAsset configAsset = Resources.Load("Config/config.ini") as TextAsset;
         ini.Open(configAsset);
