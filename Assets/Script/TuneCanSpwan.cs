@@ -5,19 +5,25 @@ using System;
 
 public class TuneCanSpwan : IComparable{
     public int mDepartureTime; // in ms
-    static public float USER_SCALE = 2;
+    static public float USER_SCALE = 1f;
     public TYPE mType;
 
     protected int mScore = 0;
     public Vector3 mDeparture;
     protected Vector3 mDestination;
     public float mVelocity;
+    public int mHitTime;
+
+    public GameObject obj;
+    
+
     public TuneCanSpwan(float x, float y, float z, float v, TYPE type, int hitTime)
     {
         mDeparture = new Vector3(x, y, z);
         mVelocity = v;
         mType = type;
-        mDepartureTime = Math.Max(0,(int)(hitTime - (mDeparture.magnitude) * 1000 / v));
+        mHitTime = hitTime;
+        mDepartureTime = Math.Max(0,(int)(hitTime - ((mDeparture - GameObject.FindGameObjectWithTag("Player").transform.position).magnitude - USER_SCALE) * 1000 / v));
     }
 
 
@@ -30,6 +36,6 @@ public class TuneCanSpwan : IComparable{
 
     public int CompareTo(object obj)
     {
-        return (mDepartureTime > ((TuneCanSpwan)obj).mDepartureTime) ? 1 : 0;
+        return (mDepartureTime - ((TuneCanSpwan)obj).mDepartureTime);
     }
-}
+}   

@@ -1,26 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+
 public class TuneManager : MonoBehaviour {
 
     public delegate void disappearHandler();
     public static event disappearHandler disappearEvent;
 
+    public string musicName = "m01";
+
     List<TuneCanSpwan> spawnList;
+    List<TuneCanSpwan> destroyList;
     float mStartTime;
-    public GameObject prefab;
+    public GameObject tune00_prefab;
+    public GameObject tune01_prefab;
+    public GameObject tune02_prefab;
+    public GameObject tune03_prefab;
     //private TextAsset mTextAsset;
 
     // Use this for initialization
     void Start () {
-        var json = ((TextAsset)Resources.Load("m01")).text; // 没有后缀
+        var json = ((TextAsset)Resources.Load(musicName)).text; // 没有后缀
         TuneList list = JsonUtility.FromJson<TuneList>(json);
         spawnList = new List<TuneCanSpwan>();
+        destroyList = new List<TuneCanSpwan>();;
         foreach (var tune in list.l)
         {
             spawnList.Add(new TuneCanSpwan(tune.mDeparture_x, tune.mDeparture_y, tune.mDeparture_z, tune.mVelocity, tune.mType,tune.mHitTime));
         }
-        //spawnList.Sort();
+        spawnList.Sort();
         StartTimer();
     }
 	
@@ -32,25 +40,38 @@ public class TuneManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (spawnList.Count == 0) return;
         float now_time = Time.time - mStartTime;
-        if(spawnList[0].mDepartureTime <= (int)(now_time*1000))
+        if(spawnList.Count != 0 && spawnList[0].mDepartureTime <= (int)(now_time*1000))
         {
-            //spawnList[0].Spawn(prefab);
-            var note = Spawn(prefab, spawnList[0].mDeparture, spawnList[0].mVelocity);
+            // 这里判断 mType 处理不同类型音符
+            var note = Spawn(tune00_prefab, spawnList[0].mDeparture, spawnList[0].mVelocity);
+            spawnList[0].obj = note;
+            //Destroy(note, 1.0f*spawnList[0].mHitTime/1000 - (1.0f*spawnList[0].mDepartureTime/1000));
+            destroyList.Add(spawnList[0]);
             spawnList.RemoveAt(0);
-            //foreach (var item in spawnList)
-            //{
-            //    print(item.mDepartureTime);
-            //}
+
+        }
+        for (int i = 0; i < destroyList.Count; i++)
+        {
+            var item = destroyList[i];
+            if (item.obj == null) continue;
+            if (1.0f*item.mHitTime / 1000 <= now_time)
+            {
+                Destroy(item.obj, 0);
+                //disappearEvent(); // 这里调用过期事件
+                destroyList.Remove(item);
+            }
         }
     }
+
     public GameObject Spawn(GameObject prefab, Vector3 mDeparture, float mVelocity)
     {
-        var tune = (GameObject)Instantiate(prefab, mDeparture / 1000, Quaternion.identity);
+        var note = (GameObject)Instantiate(prefab, mDeparture, Quaternion.identity);
         var mDestination = GameObject.FindGameObjectWithTag("Player").transform.position;
-        tune.GetComponent<TuneBase>().setVelocity((mDeparture - mDestination).normalized * mVelocity);
-        return tune;
+        //note.GetComponent<Rigidbody>().velocity = mVelocity * ( mDestination - mDeparture).normalized;
+        note.GetComponent<TuneBase>().mScore = 1;
+        note.GetComponent<TuneBase>().mVelocity = mVelocity * (mDestination - mDeparture).normalized;
+        return note;
     }
 }
 
