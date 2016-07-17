@@ -3,12 +3,26 @@ using System.Collections;
 
 public class Shield : WandController {
 
+    public float mVelocityThreshold;
+
 	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    protected override void Start () {
+        base.Start();
+        INIParser ini = new INIParser();
+        TextAsset configAsset = Resources.Load("Config/config.ini") as TextAsset;
+        ini.Open(configAsset);
+        mVelocityThreshold = (float)ini.ReadValue("shield", "velocity_threshold", 0.0);
+    }
+
+    protected override void updateStatus()
+    {
+        if (Vector3.Project(mRig.velocity, transform.forward).magnitude >= mVelocityThreshold)
+        {
+            mActive = true;
+        }
+        else
+        {
+            mActive = false;
+        }
+    }
 }
