@@ -9,15 +9,18 @@ public class TuneBase : MonoBehaviour {
     static public float USER_SCALE = 2;
     public TYPE mType;
     
-    public int mScore = 0;
-    protected Vector3 mDeparture;
-    protected Vector3 mDestination;
-    protected float mVelocity;
+    protected int mScore = 0;
+    protected Vector3 mVelocity;
     //public int mDeparture_x, mDeparture_y, mDeparture_z;
 
     protected virtual void Start()
     {
-        mDestination = GameObject.FindGameObjectWithTag("Player").transform.position;
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        GetComponent<Rigidbody>().velocity = mVelocity;
+        print(GetComponent<Rigidbody>().velocity);
     }
 
     public virtual void getHit(WandController wand)
@@ -33,13 +36,8 @@ public class TuneBase : MonoBehaviour {
         return mScore;
     }
 
-    public Vector3 getDeparture()
+    public void setVelocity(Vector3 v)
     {
-        return mDeparture;
-    }
-
-    public void setDestination(Vector3 pos)
-    {
-        mDestination = pos;
+        mVelocity = v;
     }
 }

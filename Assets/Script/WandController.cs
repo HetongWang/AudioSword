@@ -4,6 +4,7 @@ using System.Collections;
 public class WandController : MonoBehaviour {
 
     public TYPE mType;
+    [HideInInspector]
     public Player mPlayer;
     protected bool mActive;
     protected Rigidbody mRig;
@@ -11,6 +12,7 @@ public class WandController : MonoBehaviour {
     protected virtual void Start()
     {
         mRig = GetComponent<Rigidbody>();
+        mPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     private void Update()

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 
 
-
-public class TuneSpawner : MonoBehaviour {
+public class TuneManager : MonoBehaviour {
 
     public delegate void disappearHandler();
     public static event disappearHandler disappearEvent;
@@ -30,12 +29,7 @@ public class TuneSpawner : MonoBehaviour {
             spawnList.Add(new TuneCanSpwan(tune.mDeparture_x, tune.mDeparture_y, tune.mDeparture_z, tune.mVelocity, tune.mType,tune.mHitTime));
         }
         spawnList.Sort();
-        foreach (var item in spawnList)
-        {
-            print(item.mHitTime);
-        }
         StartTimer();
-
     }
 	
     void StartTimer()
