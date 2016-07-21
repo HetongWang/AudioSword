@@ -6,16 +6,16 @@ SpeedTreeImporter:
   serializedVersion: 4
   mainColor: {r: 1, g: 1, b: 1, a: 1}
   specColor: {r: 1, g: 1, b: 1, a: 0}
-  hueVariation: {r: 1, g: 1, b: 1, a: 0.1}
-  shininess: 0.121
-  alphaTestRef: 0.33
+  hueVariation: {r: 0.7058823, g: 0.92697763, b: 1, a: 0.1}
+  shininess: 0.01
+  alphaTestRef: 0.414
   bestWindQuality: 4
   hasBillboard: 1
   lODSettings:
   - height: 0.5
     castShadows: 1
-    receiveShadows: 1
-    useLightProbes: 0
+    receiveShadows: 0
+    useLightProbes: 1
     reflectionProbeUsage: 1
     enableBump: 1
     enableHue: 0
