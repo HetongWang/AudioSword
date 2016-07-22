@@ -17,8 +17,7 @@ public class TuneCanSpwan : IComparable{
     public GameObject obj;
     
 
-    public TuneCanSpwan(float x, float y, float z, float v, TYPE type, int hitTime)
-    {
+    public TuneCanSpwan(float x, float y, float z, float v, TYPE type, int hitTime) {
         mDeparture = new Vector3(x, y, z);
         mVelocity = v;
         mType = type;
@@ -34,8 +33,7 @@ public class TuneCanSpwan : IComparable{
 	}
 
 
-    public int CompareTo(object obj)
-    {
+    public int CompareTo(object obj) {
         return (mDepartureTime - ((TuneCanSpwan)obj).mDepartureTime);
     }
 }   
