@@ -18,7 +18,7 @@ public class TuneCanSpwan : IComparable{
     
 
     public TuneCanSpwan(float x, float y, float z, float v, TYPE type, int hitTime) {
-        mDeparture = new Vector3(x, y, z);
+        mDeparture = new Vector3(x, y, z) + GameObject.FindGameObjectWithTag("Player").transform.position;
         mVelocity = v;
         mType = type;
         mHitTime = hitTime;

@@ -7,6 +7,9 @@ public enum TYPE { SHIELD, SWORD };
 // this class is the base class of tune object
 public class TuneBase : MonoBehaviour {
     static public float USER_SCALE = 2;
+
+    public GameObject effect;
+
     public TYPE mType;
     
     public int mScore = 0;
@@ -34,7 +37,9 @@ public class TuneBase : MonoBehaviour {
     public virtual void destory() 
 	{
 		Destroy (gameObject);
-	}
+        //var e = Instantiate(effect, transform.position - new Vector3(0, transform.position.y, 0), Quaternion.identity);
+        //Destroy(e, 1);
+    }
 
     public int getScore()
     {

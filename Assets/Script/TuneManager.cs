@@ -7,7 +7,7 @@ public class TuneManager : MonoBehaviour {
     public delegate void disappearHandler();
     public static event disappearHandler disappearEvent;
 
-    static public string musicName = "End Credits";
+    static public string musicName = "加勒比海盗";
     static public bool finished = false;
     List<TuneCanSpwan> spawnList;
     List<TuneCanSpwan> destroyList;
@@ -17,6 +17,11 @@ public class TuneManager : MonoBehaviour {
     public GameObject tune02_prefab;
     public GameObject tune03_prefab;
     public GameObject tune04_prefab;
+
+    public GameObject effect0;
+    public GameObject effect1;
+
+
     //private TextAsset mTextAsset;
     private AudioSource audioSource;
     // Use this for initialization
@@ -118,8 +123,10 @@ public class TuneManager : MonoBehaviour {
             if (1.0f*item.mHitTime / 1000 <= now_time)
             {
                 Destroy(item.obj, 0);
-                //disappearEvent(); // 这里调用过期事件
+                disappearEvent(); // 这里调用过期事件
                 destroyList.Remove(item);
+                //var e = Instantiate(effect0, GameObject.FindGameObjectWithTag("Player").transform.position - new Vector3(0,0,1f), Quaternion.EulerRotation(0,0,0));
+                //Destroy(e, 1);
             }
         }
     }
