@@ -54,8 +54,7 @@ public class TuneManager : MonoBehaviour {
         StartTimer();
     }
 	
-    void StartTimer()
-    {
+    void StartTimer() {
         mStartTime = Time.time;
     }
 

@@ -15,8 +15,7 @@ public class Shield : WandController {
         mVelocityThreshold = (float)ini.ReadValue("shield", "velocity_threshold", 0.0);
     }
 
-    protected override void updateStatus()
-    {
+    protected override void updateStatus() {
         if (Vector3.Project(mRig.velocity, transform.forward).magnitude >= mVelocityThreshold)
         {
             mActive = true;

@@ -9,19 +9,16 @@ public class WandController : MonoBehaviour {
     protected bool mActive;
     protected Rigidbody mRig;
 
-    protected virtual void Start()
-    {
+    protected virtual void Start() {
         mRig = GetComponent<Rigidbody>();
         mPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
-    private void Update()
-    {
+    private void Update() {
         updateStatus();
     }
 
-    private void OnTriggerEnter(Collider collider)
-    {
+    private void OnTriggerEnter(Collider collider) {
         TuneBase obj = collider.GetComponent<TuneBase>();
         if (obj != null && isActive() && obj.mType == mType)
 		{
@@ -32,8 +29,7 @@ public class WandController : MonoBehaviour {
 
     protected virtual void updateStatus() { }
 
-    public bool isActive()
-    {
+    public bool isActive() {
         return mActive;
     }
 }
