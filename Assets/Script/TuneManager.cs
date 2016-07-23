@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-
+using System.IO;
 
 public class TuneManager : MonoBehaviour {
 
@@ -20,6 +20,14 @@ public class TuneManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        var path = Application.dataPath + @"/Resources/m01.txt";
+        if (File.Exists(path))
+        {
+            string text = File.ReadAllText(path);
+            print(text);
+        }
+
+
         var json = ((TextAsset)Resources.Load(musicName)).text; // 没有后缀
         TuneList list = JsonUtility.FromJson<TuneList>(json);
         spawnList = new List<TuneCanSpwan>();
@@ -43,8 +51,21 @@ public class TuneManager : MonoBehaviour {
         float now_time = Time.time - mStartTime;
         if(spawnList.Count != 0 && spawnList[0].mDepartureTime <= (int)(now_time*1000))
         {
+            GameObject prefab = tune00_prefab;
             // 这里判断 mType 处理不同类型音符
-            var note = Spawn(tune00_prefab, spawnList[0].mDeparture, spawnList[0].mVelocity);
+            switch (spawnList[0].mType)
+            {
+                case TYPE.SHIELD:
+                    prefab = tune00_prefab;
+                    break;
+                case TYPE.SWORD:
+                    prefab = tune01_prefab;
+                    break;
+            }
+
+
+            var note = Spawn(prefab, spawnList[0].mDeparture, spawnList[0].mVelocity, spawnList[0].mType);
+
             spawnList[0].obj = note;
             //Destroy(note, 1.0f*spawnList[0].mHitTime/1000 - (1.0f*spawnList[0].mDepartureTime/1000));
             destroyList.Add(spawnList[0]);
@@ -64,12 +85,13 @@ public class TuneManager : MonoBehaviour {
         }
     }
 
-    public GameObject Spawn(GameObject prefab, Vector3 mDeparture, float mVelocity)
+    public GameObject Spawn(GameObject prefab, Vector3 mDeparture, float mVelocity, TYPE type)
     {
         var note = (GameObject)Instantiate(prefab, mDeparture, Quaternion.identity);
-        var mDestination = GameObject.FindGameObjectWithTag("Player").transform.position;
+        var mDestination = GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0,0.8f,0);
         //note.GetComponent<Rigidbody>().velocity = mVelocity * ( mDestination - mDeparture).normalized;
         note.GetComponent<TuneBase>().mScore = 1;
+        note.GetComponent<TuneBase>().mType = type;
         note.GetComponent<TuneBase>().mVelocity = mVelocity * (mDestination - mDeparture).normalized;
         return note;
     }
