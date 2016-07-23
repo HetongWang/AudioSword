@@ -8,6 +8,10 @@ public class ButtonClicked : MonoBehaviour {
     void Start() {
         GetComponent<UnityEngine.UI.Button>().onClick.AddListener(()=> { onClick(); });
     }
+    
+    void Update() {
+        GetComponent<UnityEngine.UI.Button>().Select();
+    }
 
     public void onClick() {
         Debug.Log("Button Clicked");
