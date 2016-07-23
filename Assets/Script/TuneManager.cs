@@ -7,7 +7,7 @@ public class TuneManager : MonoBehaviour {
     public delegate void disappearHandler();
     public static event disappearHandler disappearEvent;
 
-    public string musicName = "m01";
+    public string musicName = "/Songs/m01";
 
     List<TuneCanSpwan> spawnList;
     List<TuneCanSpwan> destroyList;
