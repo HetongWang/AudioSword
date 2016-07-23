@@ -120,7 +120,7 @@ public class TuneManager : MonoBehaviour {
         {
             var item = destroyList[i];
             if (item.obj == null) continue;
-            if (1.0f*item.mHitTime / 1000 <= now_time)
+            if (1.0f*item.mHitTime / 1000 <= now_time - 0.5) // 这里处理消失
             {
                 Destroy(item.obj, 0);
                 disappearEvent(); // 这里调用过期事件
@@ -134,9 +134,9 @@ public class TuneManager : MonoBehaviour {
     public GameObject Spawn(GameObject prefab, TuneCanSpwan tune)
     {
         var note = (GameObject)Instantiate(prefab, tune.mDeparture, Quaternion.identity);
-        var destination = GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0,0.8f,0);
+        var destination = GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0,0.5f,0); // 这里处理目标点过高/低
         //note.GetComponent<Rigidbody>().velocity = mVelocity * ( mDestination - mDeparture).normalized;
-        note.GetComponent<TuneBase>().mScore = tune.mScore;
+        note.GetComponent<TuneBase>().mScore = tune.mType==TYPE.SWORD?2:1;
         note.GetComponent<TuneBase>().mType = tune.mType;
         note.GetComponent<TuneBase>().mVelocity = tune.mVelocity * (destination - tune.mDeparture).normalized;
         return note;
