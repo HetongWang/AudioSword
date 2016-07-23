@@ -7,7 +7,7 @@ public class TuneManager : MonoBehaviour {
     public delegate void disappearHandler();
     public static event disappearHandler disappearEvent;
 
-    public string musicName = "m01";
+    static public string musicName = "m02";
 
     List<TuneCanSpwan> spawnList;
     List<TuneCanSpwan> destroyList;
@@ -17,18 +17,32 @@ public class TuneManager : MonoBehaviour {
     public GameObject tune02_prefab;
     public GameObject tune03_prefab;
     //private TextAsset mTextAsset;
-
+    private AudioSource audioSource;
     // Use this for initialization
     void Start () {
-        var path = Application.dataPath + @"/Resources/m01.txt";
-        if (File.Exists(path))
-        {
-            string text = File.ReadAllText(path);
-            print(text);
-        }
+        audioSource = GameObject.Find("Audio").GetComponent<AudioSource>();
+        //var path = Application.dataPath + @"/Resources/" + musicName;
+
+        //if (File.Exists(path))
+        //{
+        //string json = File.ReadAllText(path + ".txt");
+        //WWW www = new WWW("file://" + path + ".mp3");
+        //song.clip = www.audioClip;
 
 
-        var json = ((TextAsset)Resources.Load(musicName)).text; // 没有后缀
+        //audio_s.clip = new AudioClip("");
+        //print(text);
+        //}
+
+
+        var json = ((TextAsset)Resources.Load( "Songs/" + musicName)).text; // 没有后缀
+
+
+        var music = (AudioClip)Resources.Load("Music/" + musicName, typeof(AudioClip));
+        audioSource.clip = music;
+        audioSource.Play();
+
+        //audioSource.playOnAwake = true;
         TuneList list = JsonUtility.FromJson<TuneList>(json);
         spawnList = new List<TuneCanSpwan>();
         destroyList = new List<TuneCanSpwan>();;
@@ -48,6 +62,7 @@ public class TuneManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        //audioSource.Play();
         float now_time = Time.time - mStartTime;
         if(spawnList.Count != 0 && spawnList[0].mDepartureTime <= (int)(now_time*1000))
         {
