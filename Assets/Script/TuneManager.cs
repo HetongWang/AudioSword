@@ -8,7 +8,7 @@ public class TuneManager : MonoBehaviour {
     public static event disappearHandler disappearEvent;
 
     static public string musicName = "m02";
-
+    static public bool finished = false;
     List<TuneCanSpwan> spawnList;
     List<TuneCanSpwan> destroyList;
     float mStartTime;
@@ -21,6 +21,7 @@ public class TuneManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         audioSource = GameObject.Find("Audio").GetComponent<AudioSource>();
+        finished = false;
         //var path = Application.dataPath + @"/Resources/" + musicName;
 
         //if (File.Exists(path))
@@ -48,7 +49,7 @@ public class TuneManager : MonoBehaviour {
         destroyList = new List<TuneCanSpwan>();;
         foreach (var tune in list.l)
         {
-            spawnList.Add(new TuneCanSpwan(tune.mDeparture_x, tune.mDeparture_y, tune.mDeparture_z, tune.mVelocity, tune.mType,tune.mHitTime));
+            spawnList.Add(new TuneCanSpwan(tune.mDeparture_x, tune.mDeparture_y, tune.mDeparture_z*2+5, tune.mVelocity*3, tune.mType,tune.mHitTime));
         }
         spawnList.Sort();
         StartTimer();
@@ -62,7 +63,16 @@ public class TuneManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //audioSource.Play();
+
+
         float now_time = Time.time - mStartTime;
+
+        if(spawnList.Count == 0)// end 
+        {
+            finished = true;
+            audioSource.Stop();
+        }
+
         if(spawnList.Count != 0 && spawnList[0].mDepartureTime <= (int)(now_time*1000))
         {
             GameObject prefab = tune00_prefab;
@@ -78,7 +88,7 @@ public class TuneManager : MonoBehaviour {
             }
 
 
-            var note = Spawn(prefab, spawnList[0].mDeparture, spawnList[0].mVelocity, spawnList[0].mType);
+            var note = Spawn(prefab, spawnList[0]);
 
             spawnList[0].obj = note;
             //Destroy(note, 1.0f*spawnList[0].mHitTime/1000 - (1.0f*spawnList[0].mDepartureTime/1000));
@@ -99,14 +109,14 @@ public class TuneManager : MonoBehaviour {
         }
     }
 
-    public GameObject Spawn(GameObject prefab, Vector3 mDeparture, float mVelocity, TYPE type)
+    public GameObject Spawn(GameObject prefab, TuneCanSpwan tune)
     {
-        var note = (GameObject)Instantiate(prefab, mDeparture, Quaternion.identity);
-        var mDestination = GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0,0.8f,0);
+        var note = (GameObject)Instantiate(prefab, tune.mDeparture, Quaternion.identity);
+        var destination = GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0,0.8f,0);
         //note.GetComponent<Rigidbody>().velocity = mVelocity * ( mDestination - mDeparture).normalized;
-        note.GetComponent<TuneBase>().mScore = 1;
-        note.GetComponent<TuneBase>().mType = type;
-        note.GetComponent<TuneBase>().mVelocity = mVelocity * (mDestination - mDeparture).normalized;
+        note.GetComponent<TuneBase>().mScore = tune.mScore;
+        note.GetComponent<TuneBase>().mType = tune.mType;
+        note.GetComponent<TuneBase>().mVelocity = tune.mVelocity * (destination - tune.mDeparture).normalized;
         return note;
     }
 }

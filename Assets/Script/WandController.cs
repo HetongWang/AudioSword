@@ -24,6 +24,8 @@ public class WandController : MonoBehaviour {
 		{
             obj.getHit(this);
             mPlayer.addScore(obj.getScore());
+            // 这里震动
+            SteamVR_Controller.Input(0).TriggerHapticPulse(100);
         }
     }
 

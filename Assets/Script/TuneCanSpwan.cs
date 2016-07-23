@@ -8,7 +8,7 @@ public class TuneCanSpwan : IComparable{
     static public float USER_SCALE = 1f;
     public TYPE mType;
 
-    protected int mScore = 0;
+    public int mScore = 0;
     public Vector3 mDeparture;
     protected Vector3 mDestination;
     public float mVelocity;
