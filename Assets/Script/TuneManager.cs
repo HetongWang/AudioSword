@@ -136,7 +136,7 @@ public class TuneManager : MonoBehaviour {
         var note = (GameObject)Instantiate(prefab, tune.mDeparture, Quaternion.identity);
         var destination = GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0,0.8f,0);
         //note.GetComponent<Rigidbody>().velocity = mVelocity * ( mDestination - mDeparture).normalized;
-        note.GetComponent<TuneBase>().mScore = tune.mScore;
+        note.GetComponent<TuneBase>().mScore = tune.mType==TYPE.SWORD?2:1;
         note.GetComponent<TuneBase>().mType = tune.mType;
         note.GetComponent<TuneBase>().mVelocity = tune.mVelocity * (destination - tune.mDeparture).normalized;
         return note;
