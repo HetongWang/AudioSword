@@ -7,7 +7,7 @@ public class TuneManager : MonoBehaviour {
     public delegate void disappearHandler();
     public static event disappearHandler disappearEvent;
 
-    static public string musicName = "m02";
+    static public string musicName = "End Credits";
     static public bool finished = false;
     List<TuneCanSpwan> spawnList;
     List<TuneCanSpwan> destroyList;
@@ -16,6 +16,7 @@ public class TuneManager : MonoBehaviour {
     public GameObject tune01_prefab;
     public GameObject tune02_prefab;
     public GameObject tune03_prefab;
+    public GameObject tune04_prefab;
     //private TextAsset mTextAsset;
     private AudioSource audioSource;
     // Use this for initialization
@@ -49,7 +50,7 @@ public class TuneManager : MonoBehaviour {
         destroyList = new List<TuneCanSpwan>();;
         foreach (var tune in list.l)
         {
-            spawnList.Add(new TuneCanSpwan(tune.mDeparture_x, tune.mDeparture_y, tune.mDeparture_z*2+5, tune.mVelocity*3, tune.mType,tune.mHitTime));
+            spawnList.Add(new TuneCanSpwan(tune.mDeparture_x, tune.mDeparture_y, tune.mDeparture_z*2+5, tune.mVelocity, tune.mType,tune.mHitTime));
         }
         spawnList.Sort();
         StartTimer();
@@ -79,11 +80,25 @@ public class TuneManager : MonoBehaviour {
             // 这里判断 mType 处理不同类型音符
             switch (spawnList[0].mType)
             {
+                case TYPE.SWORD:
+                    switch (Mathf.RoundToInt(4 * Random.value))
+                    {
+                        case 0:
+                            prefab = tune01_prefab;
+                            break;
+                        case 1:
+                            prefab = tune02_prefab;
+                            break;
+                        case 2:
+                            prefab = tune03_prefab;
+                            break;
+                        case 3:
+                            prefab = tune04_prefab;
+                            break;
+                    }
+                    break;
                 case TYPE.SHIELD:
                     prefab = tune00_prefab;
-                    break;
-                case TYPE.SWORD:
-                    prefab = tune01_prefab;
                     break;
             }
 

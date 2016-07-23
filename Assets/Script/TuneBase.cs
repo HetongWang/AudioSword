@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
+//using System;
 
 public enum TYPE { SHIELD, SWORD };
 
@@ -20,6 +20,8 @@ public class TuneBase : MonoBehaviour {
     protected virtual void FixedUpdate()
     {
         GetComponent<Rigidbody>().velocity = mVelocity;
+
+        transform.Rotate(new Vector3(Random.value, Random.value, Random.value) * 2);
     }
 
     public virtual void getHit(WandController wand)
