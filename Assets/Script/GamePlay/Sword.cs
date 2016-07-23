@@ -4,9 +4,11 @@ using System.Collections;
 public class Sword : WandController {
 
     protected float mVelocityThreshold;
+	public GameObject effect;
 
     protected override void Start() {
         base.Start();
+		index = 1;
         mType = TYPE.SWORD;
         INIParser ini = new INIParser();
         TextAsset configAsset = Resources.Load("Config/config.ini") as TextAsset;

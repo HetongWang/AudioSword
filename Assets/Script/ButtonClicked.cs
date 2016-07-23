@@ -10,12 +10,11 @@ public class ButtonClicked : MonoBehaviour {
     }
     
     void Update() {
-        GetComponent<UnityEngine.UI.Button>().Select();
     }
 
     public void onClick() {
         Debug.Log("Button Clicked");
         TuneManager.musicName = name;
-        SteamVR_LoadLevel.Begin("snow");
+        SteamVR_LoadLevel.Begin("Scene/snow");
     }
 }

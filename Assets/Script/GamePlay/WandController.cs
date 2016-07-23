@@ -8,6 +8,7 @@ public class WandController : MonoBehaviour {
     public Player mPlayer;
     protected bool mActive;
     protected Rigidbody mRig;
+	protected int index;
 
     protected virtual void Start() {
         mRig = GetComponent<Rigidbody>();
@@ -22,10 +23,11 @@ public class WandController : MonoBehaviour {
         TuneBase obj = collider.GetComponent<TuneBase>();
         if (obj != null && isActive() && obj.mType == mType)
 		{
+			Debug.Log (mType.ToString());
+			Debug.Log (obj.mType.ToString());
             obj.getHit(this);
             mPlayer.addScore(obj.getScore());
-            // 这里震动
-            SteamVR_Controller.Input(0).TriggerHapticPulse(100);
+			StartCoroutine (LongVibration (0.5f, 0.5f));
         }
     }
 
@@ -34,4 +36,12 @@ public class WandController : MonoBehaviour {
     public bool isActive() {
         return mActive;
     }
+
+	IEnumerator LongVibration(float length, float strength) {
+	    for(float i = 0; i < length; i += Time.deltaTime) {
+    	    SteamVR_Controller.Input(index).TriggerHapticPulse((ushort)Mathf.Lerp(0, 3999, strength));
+    	    yield return null;
+    	}
+	}
+
 }

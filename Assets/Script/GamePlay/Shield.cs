@@ -8,6 +8,7 @@ public class Shield : WandController {
 	// Use this for initialization
     protected override void Start () {
         base.Start();
+		index = 2;
         mType = TYPE.SHIELD;
         INIParser ini = new INIParser();
         TextAsset configAsset = Resources.Load("Config/config.ini") as TextAsset;
@@ -16,13 +17,6 @@ public class Shield : WandController {
     }
 
     protected override void updateStatus() {
-        if (Vector3.Project(mRig.velocity, transform.forward).magnitude >= mVelocityThreshold)
-        {
-            mActive = true;
-        }
-        else
-        {
-            mActive = false;
-        }
+         mActive = true;
     }
 }

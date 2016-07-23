@@ -30,7 +30,6 @@ public class LaserButtonClicker : MonoBehaviour
         if (btn != null)
         {
             pointerOnButton = false;
-            myEventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(null);
             btn = null;
         }
     }

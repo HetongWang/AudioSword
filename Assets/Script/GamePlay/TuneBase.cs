@@ -24,7 +24,7 @@ public class TuneBase : MonoBehaviour {
     {
         GetComponent<Rigidbody>().velocity = mVelocity;
 
-        transform.Rotate(new Vector3(Random.value, Random.value, Random.value) * 2);
+        transform.Rotate(new Vector3(Random.value, 0, Random.value) * 2);
     }
 
     public virtual void getHit(WandController wand)
@@ -37,8 +37,8 @@ public class TuneBase : MonoBehaviour {
     public virtual void destory() 
 	{
 		Destroy (gameObject);
-        //var e = Instantiate(effect, transform.position - new Vector3(0, transform.position.y, 0), Quaternion.identity);
-        //Destroy(e, 1);
+        var e = Instantiate(effect, transform.position - new Vector3(0, transform.position.y, 0), Quaternion.identity);
+        Destroy(e, 1);
     }
 
     public int getScore()

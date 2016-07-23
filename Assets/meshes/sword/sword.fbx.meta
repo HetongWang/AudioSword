@@ -1,22 +1,16 @@
 fileFormatVersion: 2
-guid: 0b7a666059993ba47938bbdb3d72e86a
-timeCreated: 1468994430
-licenseType: Pro
+guid: 53b829e5b854bf6419a5f25d2f0f049f
+timeCreated: 1469288826
+licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
-    100002: TerrainMesh
-    100004: meshLow:TerrainMesh
     400000: //RootNode
-    400002: TerrainMesh
-    400004: meshLow:TerrainMesh
-    2300000: TerrainMesh
-    2300002: meshLow:TerrainMesh
-    3300000: TerrainMesh
-    3300002: meshLow:TerrainMesh
-    4300000: TerrainMesh
-    4300002: meshLow:TerrainMesh
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: polySurface2
+    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -41,7 +35,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 500
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
@@ -58,8 +52,8 @@ ModelImporter:
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
-    normalImportMode: 2
-    tangentImportMode: 2
+    normalImportMode: 0
+    tangentImportMode: 3
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -75,7 +69,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

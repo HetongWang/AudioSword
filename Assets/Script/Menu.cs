@@ -5,12 +5,14 @@ using System.IO;
 public class Menu : MonoBehaviour {
 
     public GameObject buttonPrefab;
-    public GameObject songList;
+	public GameObject songList;
+	public GameObject controller;
     private List<string> fileNames = new List<string>();
     private static int WIDTH_GAP = -5;
 
 	// Use this for initialization
 	void Start () {
+		controller.GetComponent<BoxCollider> ().enabled = false;
         DirectoryInfo dirInfo = new DirectoryInfo("Assets/Resources/Songs");
         FileInfo[] files = dirInfo.GetFiles();
         int index = -2;

@@ -10,6 +10,8 @@ public class GameManager : Singleton<GameManager> {
 	
 	// Update is called once per frame
 	void Update () {
-	
+        if (TuneManager.finished) {
+            SteamVR_LoadLevel.Begin("Scene/bamboo");
+        }
 	}
 }

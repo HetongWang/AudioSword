@@ -120,7 +120,7 @@ public class TuneManager : MonoBehaviour {
         {
             var item = destroyList[i];
             if (item.obj == null) continue;
-            if (1.0f*item.mHitTime / 1000 <= now_time - 0.5) // 这里处理消失
+            if (1.0f*item.mHitTime / 1000 <= now_time - 0.2f) // 这里处理消失
             {
                 Destroy(item.obj, 0);
                 disappearEvent(); // 这里调用过期事件
