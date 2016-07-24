@@ -37,7 +37,7 @@ public class TuneBase : MonoBehaviour {
     public virtual void destory() 
 	{
 		Destroy (gameObject);
-        var e = Instantiate(effect, transform.position - new Vector3(0, transform.position.y, 0), Quaternion.identity);
+        var e = Instantiate(effect, transform.position, Quaternion.identity);
         Destroy(e, 1);
     }
 

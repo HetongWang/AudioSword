@@ -7,8 +7,8 @@ public class TuneManager : MonoBehaviour {
     public delegate void disappearHandler();
     public static event disappearHandler disappearEvent;
 
-    static public string musicName = "加勒比海盗";
-    static public bool finished = false;
+    static public string musicName = "青花瓷";
+    static public bool finished = true;
     List<TuneCanSpwan> spawnList;
     List<TuneCanSpwan> destroyList;
     float mStartTime;
@@ -42,7 +42,7 @@ public class TuneManager : MonoBehaviour {
         //}
 
 
-        var json = ((TextAsset)Resources.Load( "Songs/" + musicName)).text; // 没有后缀
+        var json = ((TextAsset)Resources.Load("Songs/" + musicName)).text; // 没有后缀
 
 
         var music = (AudioClip)Resources.Load("Music/" + musicName, typeof(AudioClip));
@@ -52,10 +52,10 @@ public class TuneManager : MonoBehaviour {
         //audioSource.playOnAwake = true;
         TuneList list = JsonUtility.FromJson<TuneList>(json);
         spawnList = new List<TuneCanSpwan>();
-        destroyList = new List<TuneCanSpwan>();;
+        destroyList = new List<TuneCanSpwan>(); ;
         foreach (var tune in list.l)
         {
-            spawnList.Add(new TuneCanSpwan(tune.mDeparture_x, tune.mDeparture_y, tune.mDeparture_z*2+5, tune.mVelocity, tune.mType,tune.mHitTime));
+            spawnList.Add(new TuneCanSpwan(tune.mDeparture_x, tune.mDeparture_y + 10, tune.mDeparture_z * 2 + 5, tune.mVelocity, tune.mType, tune.mHitTime));
         }
         spawnList.Sort();
         StartTimer();
@@ -68,15 +68,15 @@ public class TuneManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        //audioSource.Play();
-
+        if (finished) return;
 
         float now_time = Time.time - mStartTime;
 
-        if(spawnList.Count == 0)// end 
+        if(spawnList.Count == 0 && destroyList.Count == 0)// end 
         {
-            finished = true;
             audioSource.Stop();
+            finished = true;
+            //SteamVR_LoadLevel.Begin("Scene/bamboo");
         }
 
         if(spawnList.Count != 0 && spawnList[0].mDepartureTime <= (int)(now_time*1000))
@@ -119,14 +119,18 @@ public class TuneManager : MonoBehaviour {
         for (int i = 0; i < destroyList.Count; i++)
         {
             var item = destroyList[i];
-            if (item.obj == null) continue;
+            if (item.obj == null)
+            {
+                destroyList.Remove(item);
+                continue;
+            }
             if (1.0f*item.mHitTime / 1000 <= now_time - 0.2f) // 这里处理消失
             {
                 Destroy(item.obj, 0);
                 disappearEvent(); // 这里调用过期事件
                 destroyList.Remove(item);
-                //var e = Instantiate(effect0, GameObject.FindGameObjectWithTag("Player").transform.position - new Vector3(0,0,1f), Quaternion.EulerRotation(0,0,0));
-                //Destroy(e, 1);
+                var e = Instantiate(effect0, new Vector3(item.obj.transform.position.x, GameObject.FindGameObjectWithTag("Player").transform.position.y+0.3f, item.obj.transform.position.z), Quaternion.identity);
+                Destroy(e, 1);
             }
         }
     }
@@ -134,7 +138,7 @@ public class TuneManager : MonoBehaviour {
     public GameObject Spawn(GameObject prefab, TuneCanSpwan tune)
     {
         var note = (GameObject)Instantiate(prefab, tune.mDeparture, Quaternion.identity);
-        var destination = GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0,0.5f,0); // 这里处理目标点过高/低
+        var destination = GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0,1f,0); // 这里处理目标点过高/低
         //note.GetComponent<Rigidbody>().velocity = mVelocity * ( mDestination - mDeparture).normalized;
         note.GetComponent<TuneBase>().mScore = tune.mType==TYPE.SWORD?2:1;
         note.GetComponent<TuneBase>().mType = tune.mType;
