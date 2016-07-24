@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-    private int mScore = 0;
-    private int mCombo = 0;
+    public static int mScore = 0;
+    public static int mCombo = 0;
 
     private void Start() {
         TuneManager.disappearEvent += missTune;

@@ -32,7 +32,12 @@ public class Menu : MonoBehaviour {
             }
         }
 
-	}
+        transform.Find("Score").GetComponent<UnityEngine.UI.Text>().text =
+            "Score:" + Player.mScore;
+        transform.Find("Combo").GetComponent<UnityEngine.UI.Text>().text =
+            "Combo:" + Player.mCombo;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

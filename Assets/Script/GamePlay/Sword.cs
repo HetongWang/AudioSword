@@ -8,7 +8,7 @@ public class Sword : WandController {
 
     protected override void Start() {
         base.Start();
-		index = 1;
+		index = 2;
         mType = TYPE.SWORD;
         INIParser ini = new INIParser();
         TextAsset configAsset = Resources.Load("Config/config.ini") as TextAsset;

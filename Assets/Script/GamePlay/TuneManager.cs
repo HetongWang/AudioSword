@@ -47,7 +47,8 @@ public class TuneManager : MonoBehaviour {
 
         var music = (AudioClip)Resources.Load("Music/" + musicName, typeof(AudioClip));
         audioSource.clip = music;
-        audioSource.Play();
+		audioSource.Play();
+		audioSource.time = 0;
 
         //audioSource.playOnAwake = true;
         TuneList list = JsonUtility.FromJson<TuneList>(json);
@@ -55,7 +56,7 @@ public class TuneManager : MonoBehaviour {
         destroyList = new List<TuneCanSpwan>(); ;
         foreach (var tune in list.l)
         {
-            spawnList.Add(new TuneCanSpwan(tune.mDeparture_x, tune.mDeparture_y + 10, tune.mDeparture_z * 2 + 5, tune.mVelocity, tune.mType, tune.mHitTime));
+            spawnList.Add(new TuneCanSpwan(tune.mDeparture_x, tune.mDeparture_y, tune.mDeparture_z * 2 + 5, tune.mVelocity, tune.mType, tune.mHitTime));
         }
         spawnList.Sort();
         StartTimer();
@@ -68,7 +69,7 @@ public class TuneManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (finished) return;
+		if (finished) return;
 
         float now_time = Time.time - mStartTime;
 
@@ -138,7 +139,7 @@ public class TuneManager : MonoBehaviour {
     public GameObject Spawn(GameObject prefab, TuneCanSpwan tune)
     {
         var note = (GameObject)Instantiate(prefab, tune.mDeparture, Quaternion.identity);
-        var destination = GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0,1f,0); // 这里处理目标点过高/低
+        var destination = GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0,0.5f,0); // 这里处理目标点过高/低
         //note.GetComponent<Rigidbody>().velocity = mVelocity * ( mDestination - mDeparture).normalized;
         note.GetComponent<TuneBase>().mScore = tune.mType==TYPE.SWORD?2:1;
         note.GetComponent<TuneBase>().mType = tune.mType;

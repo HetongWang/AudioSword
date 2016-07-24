@@ -8,7 +8,7 @@ public class Shield : WandController {
 	// Use this for initialization
     protected override void Start () {
         base.Start();
-		index = 2;
+		index = 1;
         mType = TYPE.SHIELD;
         INIParser ini = new INIParser();
         TextAsset configAsset = Resources.Load("Config/config.ini") as TextAsset;
