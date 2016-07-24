@@ -15,6 +15,9 @@ public class ButtonClicked : MonoBehaviour {
     public void onClick() {
         Debug.Log("Button Clicked");
         TuneManager.musicName = name;
-        SteamVR_LoadLevel.Begin("Scene/snow");
+        if (Random.value > 0.5)
+            SteamVR_LoadLevel.Begin("Scene/snow");
+        else
+            SteamVR_LoadLevel.Begin("Scene/bamboo_play");
     }
 }

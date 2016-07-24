@@ -129,8 +129,8 @@ public class TuneManager : MonoBehaviour {
                 Destroy(item.obj, 0);
                 disappearEvent(); // 这里调用过期事件
                 destroyList.Remove(item);
-                var e = Instantiate(effect0, new Vector3(item.obj.transform.position.x, GameObject.FindGameObjectWithTag("Player").transform.position.y+0.3f, item.obj.transform.position.z), Quaternion.identity);
-                Destroy(e, 1);
+                //var e = Instantiate(effect0, new Vector3(item.obj.transform.position.x, GameObject.FindGameObjectWithTag("Player").transform.position.y+0.3f, item.obj.transform.position.z), Quaternion.identity);
+                //Destroy(e, 1);
             }
         }
     }
